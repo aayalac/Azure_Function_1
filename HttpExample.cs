@@ -19,15 +19,17 @@ namespace My.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"];
+            string nombre = req.Query["nombre"];
+            string apellido = req.Query["apellido"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            nombre ??= data?.nombre;
+            apellido  ??= data?.apellido;
 
-            string responseMessage = string.IsNullOrEmpty(name)
+            string responseMessage = string.IsNullOrEmpty(nombre)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+                : $"Hola, {nombre} {apellido}. Esta función activada por HTTP se ejecutó correctamente.";
 
             return new OkObjectResult(responseMessage);
         }
